@@ -57,24 +57,8 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/get${tablename}ListPage", method = RequestMethod.POST)
     public Object get${tablename}ListPage(@RequestJson(value = "paramsjson") Object paramsJson, HttpSession session) throws ParseException {
         try {
-            String sessionId = session.getId();
-            Map<String,Object> jsonObject = (Map)paramsJson;
-            if (jsonObject.get("pagenum") != null && jsonObject.get("pagesize") != null) {
-                PageHelper.startPage(Integer.valueOf(jsonObject.get("pagenum").toString()), Integer.valueOf(jsonObject.get("pagesize").toString()));
-            }
-            List<Map<String, Object>> ${prefixname}ByParamMap = ${prefixname}Service.get${tablename}ByParamMap(jsonObject);
-
-            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(${prefixname}ByParamMap);
-            long total = pageInfo.getTotal();
-
-            //获取按钮
-            Map<String, Object> userButtonAuthBySysmodelAndSessionId = userAuthSupportService.getUserButtonAuthBySysmodelAndSessionId(sysmodel, sessionId);
-
-
-            userButtonAuthBySysmodelAndSessionId.put("datalist", ${prefixname}ByParamMap);
-            userButtonAuthBySysmodelAndSessionId.put("total", total);
-
-            return AuthUtil.parseJsonKeyToLower("success", userButtonAuthBySysmodelAndSessionId);
+            
+            return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -95,17 +79,8 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/get${tablename}ByParamMap", method = RequestMethod.POST)
     public Object get${tablename}ByParamMap(@RequestJson(value = "paramsjson") Object paramsJson) throws ParseException {
         try {
-            Map<String,Object> jsonObject = (Map)paramsJson;
-            Map<String, Object> resultMap = new HashMap<>();
-            if (jsonObject.get("pagenum") != null && jsonObject.get("pagesize") != null) {
-                PageHelper.startPage(Integer.valueOf(jsonObject.get("pagenum").toString()), Integer.valueOf(jsonObject.get("pagesize").toString()));
-            }
-            List ${prefixname}ByParamMap = ${prefixname}Service.get${tablename}ByParamMap(jsonObject);
-            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(${prefixname}ByParamMap);
-            long total = pageInfo.getTotal();
-            resultMap.put("datalist", ${prefixname}ByParamMap);
-            resultMap.put("total", total);
-            return AuthUtil.parseJsonKeyToLower("success", resultMap);
+            
+            return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -126,16 +101,7 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/add${tablename}", method = RequestMethod.POST)
     public Object add${tablename}(@RequestJson(value = "addformdata") Object addformdata, HttpSession session) throws Exception {
         try {
-            JSONObject jsonObject = JSONObject.fromObject(addformdata);
-
-            ${tablename}VO entity = JSONObjectUtil.JsonObjectToEntity(jsonObject, new ${tablename}VO());
-            String sessionId = session.getId();
-            String username = RedisTemplateUtil.getCacheUserInRedis("username", sessionId, String.class);
-            entity.setpkid(UUID.randomUUID().toString());
-            entity.setupdatetime(DataFormatUtil.getDateYMDHMS(new Date()));
-            entity.setupdateuser(username);
-
-            ${prefixname}Service.insert(entity);
+            
             return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,8 +123,8 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/get${tablename}ByID", method = RequestMethod.POST)
     public Object get${tablename}ByID(@RequestJson(value = "id") String id) throws Exception {
         try {
-            Map<String,Object> result = ${prefixname}Service.selectByPrimaryKey(id);
-            return AuthUtil.parseJsonKeyToLower("success", result);
+            
+            return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -179,15 +145,7 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/update${tablename}", method = RequestMethod.POST)
     public Object update${tablename}(@RequestJson(value = "updateformdata") Object updateformdata, HttpSession session) throws Exception {
         try {
-            JSONObject jsonObject = JSONObject.fromObject(updateformdata);
-
-            ${tablename}VO entity = JSONObjectUtil.JsonObjectToEntity(jsonObject, new ${tablename}VO());
-            String sessionId = session.getId();
-            String username = RedisTemplateUtil.getCacheUserInRedis("username", sessionId, String.class);
-            entity.setupdatetime(DataFormatUtil.getDateYMDHMS(new Date()));
-            entity.setupdateuser(username);
-
-            ${prefixname}Service.updateByPrimaryKey(entity);
+            
             return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,7 +167,7 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/delete${tablename}ByID", method = RequestMethod.POST)
     public Object delete${tablename}ByID(@RequestJson(value = "id") String id) throws Exception {
         try {
-            ${prefixname}Service.deleteByPrimaryKey(id);
+            
             return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -231,8 +189,8 @@ public class ${tablename}Controller {
     @RequestMapping(value = "/get${tablename}DetailByID", method = RequestMethod.POST)
     public Object get${tablename}DetailByID(@RequestJson(value = "id") String id) throws Exception {
         try {
-            Map<String,Object> detailInfo = ${prefixname}Service.get${tablename}DetailByID(id);
-            return AuthUtil.parseJsonKeyToLower("success", detailInfo);
+            
+            return AuthUtil.parseJsonKeyToLower("success", null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
